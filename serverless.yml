@@ -1,0 +1,18 @@
+service: aws-node-notifications
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  httpApi:
+    cors: true
+
+functions:
+  notify:
+    handler: handler.notify
+    environment:
+      COURIER_AUTH_TOKEN: ${ssm:/courier-auth-token}
+    events:
+      - httpApi:
+          path: /
+          method: post
